@@ -15,13 +15,13 @@ typedef struct stack {
 #define dump_stack(stream, _stack, type, spec, args) ({     \
     const type* __top = (_stack)->top;                  \
     while (__top < (type*)((_stack)->curr)) {                     \
-        fprintf(stream, "dump_stack:%s:%d:"spec"\n", __FILE__, __LINE__, args);\
+        fprintf(stream, "dump_stack:%s:%d "spec"\n", __FILE__, __LINE__, args);\
         __top++;                                   \
     }                                                       \
 })
 
 #else
-#define dump_queue(...)
+#define dump_stack(...)
 #endif
 
 #define stack_create(_stack, block, size)  ({                                  \
@@ -43,6 +43,8 @@ typedef struct stack {
     (NULL)                                                :                   \
     (((_stack)->curr -= sizeof(type)), ((type*)(_stack)->curr));              \
 })
+
+#define stack_curr(_stack, type) ((type*)_stack)
 
 #define stack_back(_stack, type) ({                                           \
     ((_stack)->curr==(_stack)->top)                                          ?\
